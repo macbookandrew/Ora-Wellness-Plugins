@@ -176,7 +176,7 @@ function ora_display_random_testimonial_widget( $args ) {
             echo '<article class="testimonial single">';
             // post thumbnail
             if ( has_post_thumbnail() ) {
-                the_post_thumbnail( array( 80, 80 ), array( 'class' => 'testimonial-thumb' ) );
+                the_post_thumbnail( 'testimonial-thumb', array( 'class' => 'testimonial-thumb' ) );
             }
 
             // content
@@ -254,7 +254,7 @@ function ora_testimonial_shortcode( $atts ) {
             }
             // post thumbnail
             if ( has_post_thumbnail() && ! $blockquote ) {
-                $shortcode_content .= get_the_post_thumbnail( $id, array( 80, 80 ), array( 'class' => 'testimonial-thumb' ) );
+                $shortcode_content .= get_the_post_thumbnail( $id, 'testimonial-thumb', array( 'class' => 'testimonial-thumb' ) );
             }
 
             // content
@@ -263,7 +263,7 @@ function ora_testimonial_shortcode( $atts ) {
 
             // thumbnail (blockquote)
             if ( has_post_thumbnail() && $blockquote ) {
-                $shortcode_content .= get_the_post_thumbnail( $id, array( 80, 80 ), array( 'class' => 'testimonial-thumb' ) );
+                $shortcode_content .= get_the_post_thumbnail( $id, 'testimonial-thumb', array( 'class' => 'testimonial-thumb' ) );
             }
 
             $shortcode_content .= '</p>';
@@ -282,3 +282,11 @@ function ora_testimonial_shortcode( $atts ) {
     return $shortcode_content;
 }
 add_shortcode( 'testimonial', 'ora_testimonial_shortcode' );
+
+// add custom image size
+function ora_testimonial_image_size() {
+    add_image_size( 'testimonial-thumb', 80, 80, true );
+    add_image_size( 'testimonial-medium', 160, 160, true );
+    add_image_size( 'testimonial-large', 400, 400, true );
+}
+add_action( 'after_setup_theme', 'ora_testimonial_image_size' );
