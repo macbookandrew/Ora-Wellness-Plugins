@@ -103,7 +103,7 @@ class OraSupportStaffWidget extends WP_Widget {
         // The Loop
         if ( $support_staff_query->have_posts() ) {
             echo '<aside class="ora-support-staff widget">
-            <h6>Our Support Staff</h6>';
+            <h6>Customer Care Team</h6>';
             echo $args['before_widget'];
             while ( $support_staff_query->have_posts() ) {
                 $support_staff_query->the_post();
@@ -111,7 +111,7 @@ class OraSupportStaffWidget extends WP_Widget {
                 echo '<figure class="staff-member">';
                 // post thumbnail
                 if ( has_post_thumbnail() ) {
-                    the_post_thumbnail( array( 120, 120 ), array( 'class' => 'testimonial-thumb' ) );
+                    the_post_thumbnail( 'testimonial-medium', array( 'class' => 'testimonial-thumb' ) );
                 }
 
                 // content
