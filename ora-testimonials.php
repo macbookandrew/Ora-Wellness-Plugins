@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Ora Testimonials
-Plugin URI: https://gist.github.com/macbookandrew/4293c1b9c609abf6f511
+Plugin URI: https://github.com/macbookandrew/Ora-Wellness-Plugins
 Description: Adds custom post type for testimonials
 Version: 1.5.2
 Author: Andrew Minion/Pressed Solutions

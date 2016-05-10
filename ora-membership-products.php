@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Ora Membership Products
-Plugin URI: https://gist.github.com/macbookandrew/92f01a1be124cd2678f0
+Plugin URI: https://github.com/macbookandrew/Ora-Wellness-Plugins
 Description: Adds custom post type for membership products
 Version: 1.1.2
 Author: Andrew Minion/Pressed Solutions

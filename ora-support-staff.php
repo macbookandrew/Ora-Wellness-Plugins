@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Ora Support Staff
-Plugin URI: https://gist.github.com/macbookandrew/07e7e4d246a20cae3272a59462c2aaa9
+Plugin URI: https://github.com/macbookandrew/Ora-Wellness-Plugins
 Description: Adds custom post type for support staff
 Version: 1.1
 Author: Andrew Minion/Pressed Solutions
