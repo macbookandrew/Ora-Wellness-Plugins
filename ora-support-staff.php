@@ -118,7 +118,7 @@ class OraSupportStaffWidget extends WP_Widget {
             while ( $support_staff_query->have_posts() ) {
                 $support_staff_query->the_post();
 
-                echo '<figure class="staff-member">';
+                echo '<figure class="staff-member"><a href="' . get_permalink() . '" title="More about ' . get_the_title() . '">';
                 // post thumbnail
                 if ( has_post_thumbnail() ) {
                     the_post_thumbnail( 'testimonial-medium', array( 'class' => 'testimonial-thumb' ) );
@@ -127,7 +127,7 @@ class OraSupportStaffWidget extends WP_Widget {
                 // content
                 echo '<figcaption class="name"><strong>' . get_the_title() . '</strong></figcaption>';
 
-                echo '</figure>';
+                echo '</a></figure>';
             }
             echo $args['after_widget'];
             $support_staff_obj = get_post_type_object( 'support_staff' );
