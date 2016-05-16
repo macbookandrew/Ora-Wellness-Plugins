@@ -3,7 +3,7 @@
 Plugin Name: Ora Testimonials
 Plugin URI: https://github.com/macbookandrew/Ora-Wellness-Plugins
 Description: Adds custom post type for testimonials
-Version: 1.5.2
+Version: 1.6
 Author: Andrew Minion/Pressed Solutions
 Author URI: http://www.pressedsolutions.com
 Text Domain: genesis
@@ -68,6 +68,45 @@ function ora_testimonial() {
 
 }
 add_action( 'init', 'ora_testimonial', 0 );
+
+// Register Custom Taxonomy
+function ora_testimonial_category() {
+
+    $labels = array(
+        'name'                       => 'Categories',
+        'singular_name'              => 'Category',
+        'menu_name'                  => 'Categories',
+        'all_items'                  => 'All Items',
+        'parent_item'                => 'Parent Item',
+        'parent_item_colon'          => 'Parent Item:',
+        'new_item_name'              => 'New Item Name',
+        'add_new_item'               => 'Add New Item',
+        'edit_item'                  => 'Edit Item',
+        'update_item'                => 'Update Item',
+        'view_item'                  => 'View Item',
+        'separate_items_with_commas' => 'Separate items with commas',
+        'add_or_remove_items'        => 'Add or remove items',
+        'choose_from_most_used'      => 'Choose from the most used',
+        'popular_items'              => 'Popular Items',
+        'search_items'               => 'Search Items',
+        'not_found'                  => 'Not Found',
+        'no_terms'                   => 'No items',
+        'items_list'                 => 'Items list',
+        'items_list_navigation'      => 'Items list navigation',
+    );
+    $args = array(
+        'labels'                     => $labels,
+        'hierarchical'               => true,
+        'public'                     => true,
+        'show_ui'                    => true,
+        'show_admin_column'          => true,
+        'show_in_nav_menus'          => true,
+        'show_tagcloud'              => true,
+    );
+    register_taxonomy( 'testimonial', array( 'testimonial' ), $args );
+
+}
+add_action( 'init', 'ora_testimonial_category', 0 );
 
 function ora_flush_rewrite_rules() {
     ora_testimonial();
