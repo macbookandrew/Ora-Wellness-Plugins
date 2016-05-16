@@ -3,7 +3,7 @@
 Plugin Name: Ora Support Staff
 Plugin URI: https://github.com/macbookandrew/Ora-Wellness-Plugins
 Description: Adds custom post type for support staff
-Version: 1.1
+Version: 1.2
 Author: Andrew Minion/Pressed Solutions
 Author URI: http://www.pressedsolutions.com
 Text Domain: genesis
@@ -38,12 +38,18 @@ function ora_support_staff() {
         'items_list_navigation' => __( 'Support staff list navigation', 'genesis' ),
         'filter_items_list'     => __( 'Filter support staff list', 'genesis' ),
     );
+    $rewrite = array(
+        'slug'                  => 'support-staff',
+        'with_front'            => true,
+        'pages'                 => true,
+        'feeds'                 => true,
+    );
     $args = array(
         'label'                 => __( 'Support Staff', 'genesis' ),
         'description'           => __( 'Support Staff', 'genesis' ),
         'labels'                => $labels,
         'supports'              => array( 'title', 'editor', 'thumbnail', 'custom-fields', 'author', ),
-        'hierarchical'          => true,
+        'hierarchical'          => false,
         'public'                => true,
         'show_ui'               => true,
         'show_in_menu'          => true,
@@ -52,8 +58,10 @@ function ora_support_staff() {
         'show_in_admin_bar'     => true,
         'show_in_nav_menus'     => true,
         'can_export'            => true,
-        'exclude_from_search'   => true,
-        'publicly_queryable'    => false,
+        'has_archive'           => 'support-staff',
+        'exclude_from_search'   => false,
+        'publicly_queryable'    => true,
+        'rewrite'               => $rewrite,
         'capability_type'       => 'page',
     );
     register_post_type( 'support_staff', $args );
@@ -103,7 +111,9 @@ class OraSupportStaffWidget extends WP_Widget {
         // The Loop
         if ( $support_staff_query->have_posts() ) {
             echo '<aside class="ora-support-staff widget">
-            <h6>Customer Care Team</h6>';
+            <h6>Customer Care Team</h6>
+            <p><strong>8am–7pm EST</strong><br/>
+            <strong>808.892.3274</strong></p>';
             echo $args['before_widget'];
             while ( $support_staff_query->have_posts() ) {
                 $support_staff_query->the_post();
@@ -120,6 +130,8 @@ class OraSupportStaffWidget extends WP_Widget {
                 echo '</figure>';
             }
             echo $args['after_widget'];
+            $support_staff_obj = get_post_type_object( 'support_staff' );
+            echo '<p><a href="' . home_url( '/' . $support_staff_obj->rewrite['slug'] . '/' ) . '">Meet our team</a></p>';
             echo '</aside>';
         }
 
