@@ -170,7 +170,7 @@ function personal_info_save( $post_id ) {
     if ( isset( $_POST['show_on_home'] ) ) {
         update_post_meta( $post_id, 'show_on_home', 'true' );
     } else {
-        update_postmeta( $post_id, 'show_on_home', 'false' );
+        update_post_meta( $post_id, 'show_on_home', 'false' );
     }
 }
 add_action( 'save_post', 'personal_info_save' );
