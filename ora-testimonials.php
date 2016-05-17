@@ -3,7 +3,7 @@
 Plugin Name: Ora Testimonials
 Plugin URI: https://github.com/macbookandrew/Ora-Wellness-Plugins
 Description: Adds custom post type for testimonials
-Version: 1.6
+Version: 1.7
 Author: Andrew Minion/Pressed Solutions
 Author URI: http://www.pressedsolutions.com
 Text Domain: genesis
@@ -182,54 +182,102 @@ add_action( 'save_post', 'personal_info_save' );
 /**
  * Sidebar Widget showing one random testimonial
  */
-wp_register_sidebar_widget(
-    'ora-random-testimonial-widget',
-    'Ora Random Testimonial',
-    'ora_display_random_testimonial_widget',
-    array(
-        'description' => 'Outputs one random testimonial'
-    )
-);
+class OraTestimonialWidget extends WP_Widget{
 
-function ora_display_random_testimonial_widget( $args ) {
-    // WP_Query arguments
-    $random_testimonial_args = array (
-        'post_type'              => array( 'testimonial' ),
-        'nopaging'               => false,
-        'posts_per_page'         => '1',
-        'orderby'                => 'rand'
-    );
-
-    // The Query
-    $random_testimonial_query = new WP_Query( $random_testimonial_args );
-
-    // The Loop
-    if ( $random_testimonial_query->have_posts() ) {
-        echo $args['before_widget'];
-        while ( $random_testimonial_query->have_posts() ) {
-            $random_testimonial_query->the_post();
-            ob_start();
-            the_content();
-            $content = ob_get_clean();
-
-            echo '<article class="testimonial single">';
-            // post thumbnail
-            if ( has_post_thumbnail() ) {
-                the_post_thumbnail( 'testimonial-thumb', array( 'class' => 'testimonial-thumb' ) );
-            }
-
-            // content
-            echo '<div class="testimonial-content-wrapper"><div class="testimonial-content">' . $content . '</div>
-            <p class="testimonial-title alternate">' . get_the_title() . ', ' . get_post_meta( get_the_ID(), 'personal_info_location', true ) . '</div>';
-
-            echo '</article>';
-        }
-        echo $args['after_widget'];
+    function __construct() {
+        // Instantiate the parent object
+        parent::__construct( false, 'Ora Testimonial', array(
+            'description'   => 'Outputs one or more random testimonials, optionally filtered by category',
+            'classname'     => 'testimonial',
+        ));
     }
 
-    // Restore original Post Data
-    wp_reset_postdata();
+    public function widget( $args, $instance ) {
+        // set defaults
+        $posts_per_page = isset( $instance['posts_per_page'] ) ? esc_attr( $instance['posts_per_page'] ) : '1';
+        $taxonomy_id = isset( $instance['category'] ) ? esc_attr( $instance['category'] ) : NULL;
+
+        // WP_Query arguments
+        $random_testimonial_args = array (
+            'post_type'              => array( 'testimonial' ),
+            'posts_per_page'         => $posts_per_page,
+            'orderby'                => 'rand',
+        );
+        if ( $taxonomy_id ) {
+            $random_testimonial_args['tax_query'] = array (
+                array (
+                    'taxonomy'  => 'testimonial',
+                    'field'     => 'term_id',
+                    'terms'     => $taxonomy_id,
+                ),
+            );
+        }
+
+        // The Query
+        $random_testimonial_query = new WP_Query( $random_testimonial_args );
+
+        // The Loop
+        if ( $random_testimonial_query->have_posts() ) {
+            echo $args['before_widget'];
+            while ( $random_testimonial_query->have_posts() ) {
+                $random_testimonial_query->the_post();
+                ob_start();
+                the_content();
+                $content = ob_get_clean();
+
+                echo '<article class="testimonial single">';
+                // post thumbnail
+                if ( has_post_thumbnail() ) {
+                    the_post_thumbnail( 'testimonial-thumb', array( 'class' => 'testimonial-thumb' ) );
+                }
+
+                // content
+                echo '<div class="testimonial-content-wrapper"><div class="testimonial-content">' . $content . '</div>
+                <p class="testimonial-title alternate">' . get_the_title() . ', ' . get_post_meta( get_the_ID(), 'personal_info_location', true ) . '</div>';
+
+                echo '</article>';
+            }
+            echo $args['after_widget'];
+        }
+
+        // Restore original Post Data
+        wp_reset_postdata();
+    }
+
+    public function update( $new_instance, $old_instance ) {
+        $instance = $old_instance;
+
+        $instance['posts_per_page'] = ( ! empty( $new_instance['posts_per_page'] ) ) ? strip_tags( $new_instance['posts_per_page'] ) : '';
+        $instance['category'] = ( ! empty( $new_instance['category'] ) ) ? strip_tags( $new_instance['category'] ) : '';
+
+        return $instance;
+    }
+
+    public function form( $instance ) {
+        // posts per page
+        echo '<p><label for="' . $this->get_field_name( 'posts_per_page' ) . '">Number of Posts to Show: <input name="' . $this->get_field_name( 'posts_per_page' ) . '" id="' . $this->get_field_id( 'posts_per_page' ) . '" class="widefat" type="number" min="-1" step="1" value="' . esc_attr( $instance['posts_per_page'] ) . '" /></label></p>';
+
+        // categories
+        $categories = get_categories( array( 'taxonomy' => 'testimonial' ) );
+        echo '<p><label for="' . $this->get_field_name( 'category' ) . '">Category:
+        <select class="widefat" name="' . $this->get_field_name( 'category' ) . '" id="' . $this->get_field_id( 'category' ) . '">
+            <option value="">Random Testimonial from Any Category</option>';
+        foreach ( $categories as $this_category ) {
+            echo '<option value="' . $this_category->term_id . '"';
+            if ( ! empty( $instance['category'] ) && $this_category->term_id == $instance['category'] ) {
+                echo ' selected="selected"';
+            }
+            echo '>' . $this_category->name . '</option>';
+        }
+        echo '</select>
+        </label></p>';
+    }
 }
+
+function ora_register_testimonial_widget() {
+    register_widget( 'OraTestimonialWidget' );
+}
+add_action( 'widgets_init', 'ora_register_testimonial_widget' );
 
 /**
  * Show post IDs on testimonial admin screen for use in shortcode
