@@ -110,11 +110,10 @@ class OraSupportStaffWidget extends WP_Widget {
 
         // The Loop
         if ( $support_staff_query->have_posts() ) {
-            echo '<aside class="ora-support-staff widget">
+            echo $args['before_widget'] . '
             <h6>Customer Care Team</h6>
             <p><strong>8am–7pm EST</strong><br/>
             <strong>808.892.3274</strong></p>';
-            echo $args['before_widget'];
             while ( $support_staff_query->have_posts() ) {
                 $support_staff_query->the_post();
 
@@ -129,10 +128,9 @@ class OraSupportStaffWidget extends WP_Widget {
 
                 echo '</a></figure>';
             }
-            echo $args['after_widget'];
             $support_staff_obj = get_post_type_object( 'support_staff' );
             echo '<p><a href="' . home_url( '/' . $support_staff_obj->rewrite['slug'] . '/' ) . '">Meet our team</a></p>';
-            echo '</aside>';
+            echo $args['after_widget'];
         }
 
         // Restore original Post Data
