@@ -233,7 +233,11 @@ class OraTestimonialWidget extends WP_Widget{
 
                 // content
                 echo '<div class="testimonial-content-wrapper"><div class="testimonial-content">' . $content . '</div>
-                <p class="testimonial-title alternate">' . get_the_title() . ', ' . get_post_meta( get_the_ID(), 'personal_info_location', true ) . '</div>';
+                <p class="testimonial-title alternate">' . get_the_title();
+                if ( get_field( 'personal_info_location' ) ) {
+                    echo ', ' . get_field( 'personal_info_location' );
+                }
+                echo '</div>';
 
                 echo '</article>';
             }
@@ -346,7 +350,10 @@ function ora_testimonial_shortcode( $atts ) {
 
             // content
             $shortcode_content .= '<div class="testimonial-content-wrapper"><div class="testimonial-content">' . $content . '</div>
-            <p class="testimonial-title alternate">' . get_the_title() . ', ' . get_post_meta( get_the_ID(), 'personal_info_location', true );
+            <p class="testimonial-title alternate">' . get_the_title();
+            if ( get_field( 'personal_info_location' ) ) {
+                $shortcode_content .= ', ' . get_field( 'personal_info_location' );
+            }
 
             // thumbnail (blockquote)
             if ( has_post_thumbnail() && $blockquote ) {
