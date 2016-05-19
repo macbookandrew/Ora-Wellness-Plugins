@@ -321,6 +321,14 @@ class OraTestimonialWidget extends WP_Widget{
                 }
                 echo '</div>';
 
+                // CTA
+                if ( $taxonomy_id ) {
+                    $related_product = get_term_meta( $taxonomy_id, 'related-product', true );
+                    if ( $related_product ) {
+                        echo '<p><a class="button primary center" href="' . get_permalink( $related_product ) . '">Learn More</a></p>';
+                    }
+                }
+
                 echo '</article>';
             }
             echo $args['after_widget'];
