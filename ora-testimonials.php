@@ -108,6 +108,88 @@ function ora_testimonial_category() {
 }
 add_action( 'init', 'ora_testimonial_category', 0 );
 
+// Add Term Metadata
+function ora_add_testimonial_category_group_field( $taxonomy ) {
+    ?>
+    <div class="form-field term-group">
+        <label for="related-product">Related Page/Product to Feature</label>
+        <select class="postform" id="related-product" name="related-product">
+            <option value="0">- Select One -</option>
+            <optgroup label="Pages">
+                <?php
+                foreach ( get_pages() as $this_page ) {
+                    echo '<option value="' . $this_page->ID . '">' . $this_page->post_title . '</option>';
+                }
+                ?>
+            </optgroup>
+            <optgroup label="Products">
+                <?php
+                foreach ( get_posts( array( 'post_type' => 'product', 'posts_per_page' => -1 ) ) as $this_product ) {
+                    echo '<option value="' . $this_product->ID . '">' . $this_product->post_title . '</option>';
+                }
+                ?>
+            </optgroup>
+        </select>
+    </div>
+    <?php
+    add_action( 'admin_enqueue_scripts', 'ora_testimonial_category_js', 98 );
+}
+add_action( 'testimonial_add_form_fields', 'ora_add_testimonial_category_group_field' );
+
+// save related page/product
+function ora_save_testimonial_category_group_field( $term_id, $tt_id ) {
+    if ( isset( $_POST['related-product'] ) && '' !== $_POST['related-product'] ) {
+        add_term_meta( $term_id, 'related-product', esc_attr( $_POST['related-product'] ) );
+    }
+}
+add_action( 'created_testimonial', 'ora_save_testimonial_category_group_field', 10, 2 );
+add_action( 'edited_testimonial', 'ora_save_testimonial_category_group_field', 10, 2 );
+
+// update related page/product
+function ora_edit_testimonial_category_group_field( $term, $taxonomy ) {
+    $related_product = get_term_meta( $term->term_id, 'related-product', true );
+    ?>
+    <tr class="form-field term-group-wrap">
+        <th scope="row">
+            <label for="related-product">Related Page/Product to Feature</label>
+        </th>
+        <td>
+            <select class="postform" id="related-product" name="related-product">
+                <option value="0">- Select One -</option>
+                <optgroup label="Pages">
+                    <?php
+                    foreach ( get_pages() as $this_page ) {
+                        echo '<option value="' . $this_page->ID . '"' . selected( $related_product, $this_page->ID ) . '>' . $this_page->post_title . '</option>';
+                    }
+                    ?>
+                </optgroup>
+                <optgroup label="Products">
+                    <?php
+                    foreach ( get_posts( array( 'post_type' => 'product', 'posts_per_page' => -1 ) ) as $this_product ) {
+                        echo '<option value="' . $this_product->ID . '"' . selected( $related_product, $this_product->ID ) . '>' . $this_product->post_title . '</option>';
+                    }
+                    ?>
+                </optgroup>
+            </select>
+        </td>
+    </tr>
+    <?php
+}
+add_action( 'testimonial_edit_form_fields', 'ora_edit_testimonial_category_group_field', 10, 2 );
+
+// add select2 JS and style
+function ora_testimonial_category_js( $hook ) {
+    if ( 'term.php' == $hook || 'edit-tags.php' == $hook ) {
+        wp_enqueue_script( 'testimonial-metadata', plugins_url( '/js/testimonial-metadata.js', __FILE__ ), array( 'jquery', 'select2' ) );
+        ?>
+        <style>
+            #s2id_related-product { width: 95%; }
+        </style>
+        <?php
+    }
+}
+add_action( 'admin_enqueue_scripts', 'ora_testimonial_category_js', 99 );
+
 function ora_flush_rewrite_rules() {
     ora_testimonial();
     flush_rewrite_rules();
