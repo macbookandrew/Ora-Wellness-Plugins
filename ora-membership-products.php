@@ -108,7 +108,7 @@ function ora_expert_interview() {
         'label'                 => __( 'Expert Interview', 'genesis' ),
         'description'           => __( 'Expert Interview', 'genesis' ),
         'labels'                => $labels,
-        'supports'              => array( 'title', 'editor', 'thumbnail', 'custom-fields', 'author', ),
+        'supports'              => array( 'title', 'editor', 'thumbnail', 'custom-fields', 'author', 'page-attributes', ),
         'hierarchical'          => false,
         'public'                => true,
         'show_ui'               => true,
