@@ -165,7 +165,7 @@ function ora_summit_interview() {
         'label'                 => __( 'Summit Interview', 'genesis' ),
         'description'           => __( 'Summit Interview', 'genesis' ),
         'labels'                => $labels,
-        'supports'              => array( 'title', 'editor', 'thumbnail', 'custom-fields', 'author', ),
+        'supports'              => array( 'title', 'editor', 'thumbnail', 'custom-fields', 'author', 'page-attributes', ),
         'hierarchical'          => false,
         'public'                => true,
         'show_ui'               => true,
