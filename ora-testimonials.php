@@ -375,18 +375,22 @@ add_action( 'widgets_init', 'ora_register_testimonial_widget' );
 
 /**
  * Show post IDs on testimonial admin screen for use in shortcode
+ * Show menu order for ease of sorting
  */
 add_filter('manage_testimonial_posts_columns' , 'ora_testimonial_columns_head');
-function ora_testimonial_columns_head( $defaults ) {
-    $defaults['ID'] = 'ID';
+function ora_testimonial_columns_head( $columns ) {
+    $columns['ID'] = 'Post ID';
+    $columns['menu_order'] = 'Sort Order';
 
-    return $defaults;
+    return $columns;
 }
 
 add_action( 'manage_testimonial_posts_custom_column', 'ora_testimonial_columns_body', 10, 2 );
 function ora_testimonial_columns_body( $column_name, $post_id ) {
     if ( 'ID' == $column_name ) {
         echo $post_id;
+    } elseif ( 'menu_order' == $column_name ) {
+        echo get_post( $post_id )->menu_order;
     }
 }
 
