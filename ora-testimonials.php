@@ -478,3 +478,18 @@ function ora_testimonial_image_size() {
     add_image_size( 'testimonial-large', 400, 400, true );
 }
 add_action( 'after_setup_theme', 'ora_testimonial_image_size' );
+
+/**
+ * Testimonial Categories shortcode
+ */
+function ora_testimonial_category_shortcode( $atts ) {
+    $category_list_options = array(
+        'taxonomy'  => 'testimonial',
+        'echo'      => false,
+        'title_li'  => '',
+    );
+
+    return '<ul>' . wp_list_categories( $category_list_options ) . '
+    </ul>';
+}
+add_shortcode( 'testimonial_category_list', 'ora_testimonial_category_shortcode' );
