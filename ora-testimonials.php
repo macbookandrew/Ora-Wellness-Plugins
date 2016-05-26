@@ -39,7 +39,7 @@ function ora_testimonial() {
         'filter_items_list'     => __( 'Filter testimonials list', 'genesis' ),
     );
     $rewrite = array(
-        'slug'                  => 'testimonials',
+        'slug'                  => 'testimonials/all',
         'with_front'            => true,
         'pages'                 => true,
         'feeds'                 => true,
@@ -58,7 +58,7 @@ function ora_testimonial() {
         'show_in_admin_bar'     => true,
         'show_in_nav_menus'     => true,
         'can_export'            => true,
-        'has_archive'           => 'testimonials',
+        'has_archive'           => 'testimonials/all',
         'exclude_from_search'   => false,
         'publicly_queryable'    => true,
         'rewrite'               => $rewrite,
@@ -103,7 +103,7 @@ function ora_testimonial_category() {
         'show_in_nav_menus'          => true,
         'show_tagcloud'              => true,
     );
-    register_taxonomy( 'testimonial', array( 'testimonial' ), $args );
+    register_taxonomy( 'testimonial-category', array( 'testimonial' ), $args );
 
 }
 add_action( 'init', 'ora_testimonial_category', 0 );
@@ -484,7 +484,7 @@ add_action( 'after_setup_theme', 'ora_testimonial_image_size' );
  */
 function ora_testimonial_category_shortcode( $atts ) {
     $category_list_options = array(
-        'taxonomy'  => 'testimonial',
+        'taxonomy'  => 'testimonial-category',
         'echo'      => false,
         'title_li'  => '',
     );
