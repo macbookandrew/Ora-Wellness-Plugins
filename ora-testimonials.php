@@ -414,14 +414,6 @@ function ora_testimonial_shortcode( $atts ) {
 }
 add_shortcode( 'testimonial', 'ora_testimonial_shortcode' );
 
-// add custom image size
-function ora_testimonial_image_size() {
-    add_image_size( 'testimonial-thumb', 80, 80, true );
-    add_image_size( 'testimonial-medium', 160, 160, true );
-    add_image_size( 'testimonial-large', 400, 400, true );
-}
-add_action( 'after_setup_theme', 'ora_testimonial_image_size' );
-
 /**
  * Testimonial Categories shortcode
  */
@@ -436,3 +428,13 @@ function ora_testimonial_category_shortcode( $atts ) {
     </ul>';
 }
 add_shortcode( 'testimonial_category_list', 'ora_testimonial_category_shortcode' );
+
+/**
+ * Add testimonial custom image size
+ */
+function ora_testimonial_image_size() {
+    add_image_size( 'testimonial-thumb', 80, 80, true );
+    add_image_size( 'testimonial-medium', 160, 160, true );
+    add_image_size( 'testimonial-large', 400, 400, true );
+}
+add_action( 'after_setup_theme', 'ora_testimonial_image_size' );
