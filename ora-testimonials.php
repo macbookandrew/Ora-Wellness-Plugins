@@ -253,8 +253,11 @@ class OraTestimonialWidget extends WP_Widget{
                 // content
                 echo '<div class="testimonial-content-wrapper"><div class="testimonial-content">' . $content . '</div>
                 <p class="testimonial-title alternate">' . get_the_title();
-                if ( get_field( 'personal_info_location' ) ) {
-                    echo ', ' . get_field( 'personal_info_location' );
+                if ( get_field( 'city' ) || get_field( 'state' ) || get_field( 'country' ) ) {
+                    echo ', ';
+                    if ( get_field( 'city' ) ) echo get_field( 'city' ) . ', ';
+                    if ( get_field( 'state' ) ) echo get_field( 'state' );
+                    if ( 'United States' !== get_field( 'country' ) ) echo ', ' . get_field( 'country' );
                 }
                 echo '</div>';
 
@@ -382,8 +385,11 @@ function ora_testimonial_shortcode( $atts ) {
             // content
             $shortcode_content .= '<div class="testimonial-content-wrapper"><div class="testimonial-content">' . $content . '</div>
             <p class="testimonial-title alternate">' . get_the_title();
-            if ( get_field( 'personal_info_location' ) ) {
-                $shortcode_content .= ', ' . get_field( 'personal_info_location' );
+            if ( get_field( 'city' ) || get_field( 'state' ) || get_field( 'country' ) ) {
+                $shortcode_content .= ', ';
+                if ( get_field( 'city' ) ) $shortcode_content .= get_field( 'city' ) . ', ';
+                if ( get_field( 'state' ) ) $shortcode_content .= get_field( 'state' );
+                if ( 'United States' !== get_field( 'country' ) ) $shortcode_content .= ', ' . get_field( 'country' );
             }
 
             // thumbnail (blockquote)
