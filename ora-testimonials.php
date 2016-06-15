@@ -464,6 +464,11 @@ function ora_testimonial_category_meta() {
 }
 add_action( 'genesis_entry_footer', 'ora_testimonial_category_meta' );
 
+/**
+ * Don’t output post title on testimonial category archives
+ * @param  string $title Post title
+ * @return string Post title to display
+ */
 function ora_testimonial_category_title( $title ) {
     global $post;
     if ( 'testimonial' == $post->post_type && is_tax() ) {
