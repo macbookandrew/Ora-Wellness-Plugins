@@ -440,12 +440,12 @@ function ora_testimonial_image_size() {
 add_action( 'after_setup_theme', 'ora_testimonial_image_size' );
 
 /**
- * Add testimonial author and location info on cateogry archives
+ * Add testimonial author and location info on category archives and single views
  * @return string HTML code with thumbnail, name, and location
  */
-function ora_testimonial_category_meta() {
+function ora_testimonial_category_meta( $content ) {
     global $post;
-    if ( 'testimonial' == $post->post_type && is_tax() ) {
+    if ( 'testimonial' == $post->post_type && ( is_tax() || is_singular() ) ) {
         $meta = '<p class="testimonial-title alternate">';
         if ( has_post_thumbnail() ) {
             $meta .= get_the_post_thumbnail( $id, 'testimonial-thumb', array( 'class' => 'testimonial-thumb alignleft' ) );
@@ -459,19 +459,19 @@ function ora_testimonial_category_meta() {
         }
         $meta .= '</p>';
 
-        echo $meta;
+        echo $content . $meta;
     }
 }
-add_action( 'genesis_entry_footer', 'ora_testimonial_category_meta' );
+add_filter( 'the_content', 'ora_testimonial_category_meta' );
 
 /**
- * Don’t output post title on testimonial category archives
+ * Don’t output post title on testimonial category archives or single views
  * @param  string $title Post title
  * @return string Post title to display
  */
 function ora_testimonial_category_title( $title ) {
     global $post;
-    if ( 'testimonial' == $post->post_type && is_tax() ) {
+    if ( 'testimonial' == $post->post_type && ( is_tax() || is_singular() ) ) {
         return NULL;
     } else {
         return $title;
