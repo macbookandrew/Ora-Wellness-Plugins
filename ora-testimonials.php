@@ -254,7 +254,7 @@ class OraTestimonialWidget extends WP_Widget{
                 echo '<div class="testimonial-content-wrapper"><div class="testimonial-content">' . $content . '</div>
                 <p class="testimonial-title alternate">' . get_the_title();
                 if ( get_field( 'city' ) || get_field( 'state' ) || get_field( 'country' ) ) {
-                    echo ', ';
+                    echo ' from ';
                     if ( get_field( 'city' ) ) echo get_field( 'city' ) . ', ';
                     if ( get_field( 'state' ) ) echo get_field( 'state' );
                     if ( 'United States' !== get_field( 'country' ) ) echo ', ' . get_field( 'country' );
@@ -438,3 +438,38 @@ function ora_testimonial_image_size() {
     add_image_size( 'testimonial-large', 400, 400, true );
 }
 add_action( 'after_setup_theme', 'ora_testimonial_image_size' );
+
+/**
+ * Add testimonial author and location info on cateogry archives
+ * @return string HTML code with thumbnail, name, and location
+ */
+function ora_testimonial_category_meta() {
+    global $post;
+    if ( 'testimonial' == $post->post_type && is_tax() ) {
+        $meta = '<p class="testimonial-title alternate">';
+        if ( has_post_thumbnail() ) {
+            $meta .= get_the_post_thumbnail( $id, 'testimonial-thumb', array( 'class' => 'testimonial-thumb alignleft' ) );
+        }
+        $meta .= get_the_title();
+        if ( get_field( 'city' ) || get_field( 'state' ) || get_field( 'country' ) ) {
+            $meta .= ' from ';
+            if ( get_field( 'city' ) ) $meta .= get_field( 'city' ) . ', ';
+            if ( get_field( 'state' ) ) $meta .= get_field( 'state' );
+            if ( 'United States' !== get_field( 'country' ) ) $meta .= ', ' . get_field( 'country' );
+        }
+        $meta .= '</p>';
+
+        echo $meta;
+    }
+}
+add_action( 'genesis_entry_footer', 'ora_testimonial_category_meta' );
+
+function ora_testimonial_category_title( $title ) {
+    global $post;
+    if ( 'testimonial' == $post->post_type && is_tax() ) {
+        return NULL;
+    } else {
+        return $title;
+    }
+}
+add_filter( 'genesis_post_title_text', 'ora_testimonial_category_title' );
