@@ -478,3 +478,16 @@ function ora_testimonial_category_title( $title ) {
     }
 }
 add_filter( 'genesis_post_title_text', 'ora_testimonial_category_title' );
+
+/**
+ * Show full post content for testimonial category archives
+ */
+function ora_testimonial_category_full_content() {
+    if ( is_tax() && 'testimonial' == get_post_type() ) {
+        echo'<pre><code>';var_dump('is testimonial tax');echo'</code></pre>';
+        remove_action( 'genesis_entry_content', 'genesis_do_post_content' );
+        remove_action( 'genesis_entry_content', 'genesis_do_post_image' );
+        add_action( 'genesis_entry_content', 'the_content' );
+    }
+}
+add_action( 'genesis_before', 'ora_testimonial_category_full_content' );
