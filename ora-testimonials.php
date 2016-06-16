@@ -459,7 +459,9 @@ function ora_testimonial_category_meta( $content ) {
         }
         $meta .= '</p>';
 
-        echo $content . $meta;
+        return $content . $meta;
+    } else {
+        return $content;
     }
 }
 add_filter( 'the_content', 'ora_testimonial_category_meta' );
