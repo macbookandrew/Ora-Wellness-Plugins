@@ -440,12 +440,12 @@ function ora_testimonial_image_size() {
 add_action( 'after_setup_theme', 'ora_testimonial_image_size' );
 
 /**
- * Add testimonial author and location info on category archives and single views
+ * Add testimonial author and location info on archives, tax archives, and single views
  * @return string HTML code with thumbnail, name, and location
  */
 function ora_testimonial_category_meta( $content ) {
     global $post;
-    if ( 'testimonial' == $post->post_type && ( is_tax() || is_singular() ) ) {
+    if ( 'testimonial' == $post->post_type ) {
         $meta = '<p class="testimonial-title alternate">';
         if ( has_post_thumbnail() ) {
             $meta .= get_the_post_thumbnail( $id, 'testimonial-thumb', array( 'class' => 'testimonial-thumb alignleft' ) );
@@ -467,13 +467,13 @@ function ora_testimonial_category_meta( $content ) {
 add_filter( 'the_content', 'ora_testimonial_category_meta' );
 
 /**
- * Don’t output post title on testimonial category archives or single views
+ * Don’t output post title for testimonials
  * @param  string $title Post title
  * @return string Post title to display
  */
 function ora_testimonial_category_title( $title ) {
     global $post;
-    if ( 'testimonial' == $post->post_type && ( is_tax() || is_singular() ) ) {
+    if ( 'testimonial' == $post->post_type ) {
         return NULL;
     } else {
         return $title;
@@ -482,13 +482,15 @@ function ora_testimonial_category_title( $title ) {
 add_filter( 'genesis_post_title_text', 'ora_testimonial_category_title' );
 
 /**
- * Show full post content for testimonial category archives
+ * Show full post content for testimonial archives and category archives
  */
 function ora_testimonial_category_full_content() {
-    if ( is_tax() && 'testimonial' == get_post_type() ) {
-        remove_action( 'genesis_entry_content', 'genesis_do_post_content' );
-        remove_action( 'genesis_entry_content', 'genesis_do_post_image' );
-        add_action( 'genesis_entry_content', 'the_content' );
+    if ( 'testimonial' == get_post_type() ) {
+        if ( is_tax() || is_archive() ) {
+            remove_action( 'genesis_entry_content', 'genesis_do_post_content' );
+            remove_action( 'genesis_entry_content', 'genesis_do_post_image' );
+            add_action( 'genesis_entry_content', 'the_content' );
+        }
     }
 }
 add_action( 'genesis_before', 'ora_testimonial_category_full_content' );
