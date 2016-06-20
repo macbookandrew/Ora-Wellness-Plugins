@@ -245,14 +245,9 @@ class OraTestimonialWidget extends WP_Widget{
                 $content = ob_get_clean();
 
                 echo '<article class="testimonial single">';
-                // post thumbnail
-                if ( has_post_thumbnail() ) {
-                    the_post_thumbnail( 'testimonial-thumb', array( 'class' => 'testimonial-thumb' ) );
-                }
-
                 // content
                 echo '<div class="testimonial-content-wrapper"><div class="testimonial-content">' . $content . '</div>
-                <p class="testimonial-title alternate">' . get_the_title();
+                <p class="testimonial-title alternate clearfix">' . get_the_title();
                 if ( get_field( 'city' ) || get_field( 'state' ) || get_field( 'country' ) ) {
                     echo ' from ';
                     if ( get_field( 'city' ) ) echo get_field( 'city' ) . ', ';
@@ -368,36 +363,15 @@ function ora_testimonial_shortcode( $atts ) {
 
         while ( $testimonial_query->have_posts() ) {
             $testimonial_query->the_post();
-            ob_start();
-            the_content();
-            $content = ob_get_clean();
 
             if ( $blockquote ) {
                 $shortcode_content .= '<blockquote class="testimonial single">';
             } elseif ( ! $content_only ) {
                 $shortcode_content .= '<aside class="testimonial single shortcode">';
             }
-            // post thumbnail
-            if ( has_post_thumbnail() && ! $blockquote ) {
-                $shortcode_content .= get_the_post_thumbnail( $id, 'testimonial-thumb', array( 'class' => 'testimonial-thumb' ) );
-            }
 
             // content
-            $shortcode_content .= '<div class="testimonial-content-wrapper"><div class="testimonial-content">' . $content . '</div>
-            <p class="testimonial-title alternate">' . get_the_title();
-            if ( get_field( 'city' ) || get_field( 'state' ) || get_field( 'country' ) ) {
-                $shortcode_content .= ', ';
-                if ( get_field( 'city' ) ) $shortcode_content .= get_field( 'city' ) . ', ';
-                if ( get_field( 'state' ) ) $shortcode_content .= get_field( 'state' );
-                if ( 'United States' !== get_field( 'country' ) ) $shortcode_content .= ', ' . get_field( 'country' );
-            }
-
-            // thumbnail (blockquote)
-            if ( has_post_thumbnail() && $blockquote ) {
-                $shortcode_content .= get_the_post_thumbnail( $id, 'testimonial-thumb', array( 'class' => 'testimonial-thumb' ) );
-            }
-
-            $shortcode_content .= '</p>';
+            $shortcode_content .= '<div class="testimonial-content-wrapper"><div class="testimonial-content">' . apply_filters( 'the_content', get_the_content() ) . '</div>';
 
             if ( $blockquote ) {
                 $shortcode_content .= '</blockquote>';
@@ -446,7 +420,7 @@ add_action( 'after_setup_theme', 'ora_testimonial_image_size' );
 function ora_testimonial_category_meta( $content ) {
     global $post;
     if ( 'testimonial' == $post->post_type ) {
-        $meta = '<p class="testimonial-title alternate">';
+        $meta = '<p class="testimonial-title alternate clearfix">';
         if ( has_post_thumbnail() ) {
             $meta .= apply_filters( 'ora_testimonial_image', get_the_post_thumbnail( $id, 'testimonial-thumb', array( 'class' => 'testimonial-thumb alignleft' ) ) );
         }
