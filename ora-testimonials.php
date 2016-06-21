@@ -417,7 +417,7 @@ add_action( 'after_setup_theme', 'ora_testimonial_image_size' );
 function ora_testimonial_category_meta( $content ) {
     global $post;
     if ( 'testimonial' == $post->post_type ) {
-        $meta = '<p class="testimonial-title alternate clearfix">';
+        $meta = '<p class="testimonial-title alternate clearfix' . ( has_post_thumbnail() ? ' has-thumb' : '' ) . '">';
         if ( has_post_thumbnail() ) {
             $meta .= apply_filters( 'ora_testimonial_image', get_the_post_thumbnail( get_the_ID(), 'testimonial-thumb', array( 'class' => 'testimonial-thumb alignleft' ) ) );
         }
