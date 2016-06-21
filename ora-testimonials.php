@@ -240,13 +240,10 @@ class OraTestimonialWidget extends WP_Widget{
             echo $args['before_widget'];
             while ( $random_testimonial_query->have_posts() ) {
                 $random_testimonial_query->the_post();
-                ob_start();
-                the_content();
-                $content = ob_get_clean();
 
                 echo '<article class="testimonial single">';
                 // content
-                echo '<div class="testimonial-content-wrapper"><div class="testimonial-content">' . $content . '</div>
+                echo '<div class="testimonial-content-wrapper"><div class="testimonial-content">' . apply_filters( 'the_content', get_the_content() ) . '</div>
                 <p class="testimonial-title alternate clearfix">' . get_the_title();
                 if ( get_field( 'city' ) || get_field( 'state' ) || get_field( 'country' ) ) {
                     echo ' from ';
