@@ -419,7 +419,7 @@ function ora_testimonial_category_meta( $content ) {
     if ( 'testimonial' == $post->post_type ) {
         $meta = '<p class="testimonial-title alternate clearfix">';
         if ( has_post_thumbnail() ) {
-            $meta .= apply_filters( 'ora_testimonial_image', get_the_post_thumbnail( $id, 'testimonial-thumb', array( 'class' => 'testimonial-thumb alignleft' ) ) );
+            $meta .= apply_filters( 'ora_testimonial_image', get_the_post_thumbnail( get_the_ID(), 'testimonial-thumb', array( 'class' => 'testimonial-thumb alignleft' ) ) );
         }
         $meta .= get_the_title();
         if ( get_field( 'city' ) || get_field( 'state' ) || get_field( 'country' ) ) {
