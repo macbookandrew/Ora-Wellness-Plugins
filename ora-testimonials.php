@@ -390,9 +390,10 @@ add_shortcode( 'testimonial', 'ora_testimonial_shortcode' );
  */
 function ora_testimonial_category_shortcode( $atts ) {
     $category_list_options = array(
-        'taxonomy'  => 'testimonial-category',
-        'echo'      => false,
-        'title_li'  => '',
+        'taxonomy'      => 'testimonial-category',
+        'echo'          => false,
+        'title_li'      => '',
+        'show_count'    => true,
     );
 
     return '<ul>' . wp_list_categories( $category_list_options ) . '
