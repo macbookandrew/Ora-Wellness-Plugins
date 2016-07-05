@@ -466,3 +466,13 @@ function ora_testimonial_category_full_content() {
     }
 }
 add_action( 'genesis_before', 'ora_testimonial_category_full_content' );
+
+/**
+ * Don’t show post thumbnail on testimonial archives
+ */
+function ora_remove_testimonial_thumbnail() {
+    if ( 'testimonial' == get_post_type() ) {
+        remove_action( 'genesis_entry_content', 'genesis_do_post_image', 8 );
+    }
+}
+add_action( 'genesis_entry_content', 'ora_remove_testimonial_thumbnail', 5 );
