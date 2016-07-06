@@ -52,7 +52,11 @@ function ora_sync_generated_password( $customer_id, $new_customer_data, $passwor
     }
 
     // update Infusionsoft with password
-    $i2sdk->isdk->updateCon( $contact_id, array( '_OraPassword' => $email ) );
+    $i2sdk->isdk->updateCon( $contact_id, array(
+        'password'      => $email,
+        'OraPassword'   => $email,
+        '_OraPassword'  => $email,
+    ));
 
     // update local WP user with password
     wp_set_password( $email, $customer_id );
