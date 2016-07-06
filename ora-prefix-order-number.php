@@ -20,6 +20,6 @@ if (!defined('ABSPATH')) {
  * @return string  new order number
  */
 function ora_woocommerce_order_number( $oldnumber, $order ) {
-	return 'WC-' . $order->id;
+    return 'WC-' . $order->id;
 }
 add_filter( 'woocommerce_order_number', 'ora_woocommerce_order_number', 1, 2 );
