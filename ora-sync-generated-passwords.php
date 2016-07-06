@@ -58,3 +58,17 @@ function ora_sync_generated_password( $customer_id, $new_customer_data, $passwor
     wp_set_password( $email, $customer_id );
 }
 add_action( 'user_register', 'ora_sync_generated_password', 15, 1 );
+
+/**
+ * Request a password change if password matches their email address
+ * @param string $user_login user login name
+ * @param class  $user       WP User
+ */
+function ora_force_password_change( $user_login, $user ) {
+    $wp_hasher = new PasswordHash( 8, TRUE );
+
+    if ( $wp_hasher->CheckPassword( $user->email, $user->user_pass ) ) {
+        wp_safe_redirect( home_url( '/my-account/edit-account/' ) );
+    }
+}
+add_action( 'wp_login', 'ora_force_password_change', 10, 2 );
