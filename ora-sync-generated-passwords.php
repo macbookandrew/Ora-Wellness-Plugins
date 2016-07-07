@@ -29,20 +29,10 @@ function ora_sync_generated_password( $customer_id, $new_customer_data, $passwor
     // get email address
     if ( !empty( $user_info->user_email ) ) {
         $email = $user_info->user_email;
-    } elseif ( isset( $_POST['user_email'] ) ) {
-        $email = $_POST['user_email'];
-    } elseif ( isset( $_POST['email'] ) ) {
-        $email = $_POST['email'];
-    } elseif ( isset( $_POST['Email'] ) ) {
-        $email = $_POST['Email'];
-    } elseif ( isset( $_POST['email2'] ) ) {
-        $email = $_POST['email2'];
-    } elseif ( isset( $_POST['billing_email'] ) ) {
-        $email = $_POST['billing_email'];
     }
 
     // check database for Infusionsoft ID first
-    if ( $infusionsoft_ID && 0 != $infusionsoft_ID ) {
+    if ( $infusionsoft_ID && $infusionsoft_ID > 0 ) {
         $contact_id = $infusionsoft_ID;
     } else {
         $contact = $iwpro->app->dsFind( 'Contact', 5, 0, 'Email', $email,  array( 'Id' ) );
@@ -53,15 +43,11 @@ function ora_sync_generated_password( $customer_id, $new_customer_data, $passwor
 
     // update Infusionsoft with password
     $i2sdk->isdk->updateCon( $contact_id, array(
-        'password'      => $email,
-        'OraPassword'   => $email,
-        '_OraPassword'  => $email,
+        'password'      =>$new_customer_data['user_pass'],
+        '_OraPassword'  =>$new_customer_data['user_pass'],
     ));
-
-    // update local WP user with password
-    wp_set_password( $email, $customer_id );
 }
-add_action( 'user_register', 'ora_sync_generated_password', 15, 1 );
+add_action( 'woocommerce_created_user', 'ora_sync_generated_password', 15, 3 );
 
 /**
  * Request a password change if password matches their email address
