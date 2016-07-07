@@ -42,12 +42,12 @@ function ora_sync_generated_password( $customer_id, $new_customer_data, $passwor
     }
 
     // update Infusionsoft with password
-    $i2sdk->isdk->updateCon( $contact_id, array(
+    $infusionsoft_update = $i2sdk->isdk->updateCon( $contact_id, array(
         'password'      =>$new_customer_data['user_pass'],
         '_OraPassword'  =>$new_customer_data['user_pass'],
     ));
 }
-add_action( 'woocommerce_created_user', 'ora_sync_generated_password', 15, 3 );
+add_action( 'woocommerce_created_customer', 'ora_sync_generated_password', 11, 3 );
 
 /**
  * Request a password change if password matches their email address
