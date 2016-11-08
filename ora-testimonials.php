@@ -329,8 +329,8 @@ function ora_testimonial_columns_body( $column_name, $post_id ) {
 /**
  * Testimonial grid shortcode
  */
-function ora_testimonial_grid_shortcode( $atts, $content = null ) {
-    return '<div class="testimonial-grid">' . $content . '</div>';
+function ora_testimonial_grid_shortcode( $atts, $content = NULL ) {
+    return '<div class="testimonial-grid">' . apply_filters( 'the_content',  $content ) . '</div>';
 }
 add_shortcode( 'testimonial_grid', 'ora_testimonial_grid_shortcode' );
 
@@ -435,7 +435,12 @@ function ora_testimonial_category_meta( $content ) {
             $meta .= ' from ';
             if ( get_field( 'city' ) ) $meta .= get_field( 'city' ) . ', ';
             if ( get_field( 'state' ) ) $meta .= get_field( 'state' );
-            if ( 'United States' !== get_field( 'country' ) ) $meta .= ', ' . get_field( 'country' );
+            if ( 'United States' !== get_field( 'country' ) ) {
+                if ( get_field( 'city' ) || get_field( 'state' ) ) {
+                    $meta .= ', ';
+                }
+                $meta .= get_field( 'country' );
+            }
         }
         $meta .= '</p>';
 
