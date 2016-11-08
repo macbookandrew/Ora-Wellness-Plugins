@@ -3,7 +3,7 @@
 Plugin Name: Ora Testimonials
 Plugin URI: https://github.com/macbookandrew/Ora-Wellness-Plugins
 Description: Adds custom post type for testimonials
-Version: 1.7
+Version: 1.8
 Author: Andrew Minion/Pressed Solutions
 Author URI: http://www.pressedsolutions.com
 Text Domain: genesis
@@ -325,6 +325,14 @@ function ora_testimonial_columns_body( $column_name, $post_id ) {
         echo get_post( $post_id )->menu_order;
     }
 }
+
+/**
+ * Testimonial grid shortcode
+ */
+function ora_testimonial_grid_shortcode( $atts, $content = null ) {
+    return '<div class="testimonial-grid">' . $content . '</div>';
+}
+add_shortcode( 'testimonial_grid', 'ora_testimonial_grid_shortcode' );
 
 /**
  * Testimonial shortcode
