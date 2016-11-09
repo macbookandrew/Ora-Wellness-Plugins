@@ -84,3 +84,6 @@ function ora_customer_details( $customer_data, $user_id, $type_to_load ) {
 
     return $customer_data;
 }
+
+// always show country
+add_filter( 'woocommerce_formatted_address_force_country_display', '__return_true' );
