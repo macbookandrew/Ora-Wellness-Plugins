@@ -87,3 +87,15 @@ function ora_customer_details( $customer_data, $user_id, $type_to_load ) {
 
 // always show country
 add_filter( 'woocommerce_formatted_address_force_country_display', '__return_true' );
+
+// format Swiss addresses to include name of canton
+add_filter( 'woocommerce_localisation_address_formats', 'ora_localisation_address_formats' );
+function ora_localisation_address_formats( $address_formats ) {
+	foreach ( $address_formats as $key => $value ) {
+		if ( 'CH' == $key ) {
+			$address_formats['CH'] = "{company}\n{name}\n{address_1}\n{address_2}\n{postcode} {city} {state}\n{country}";
+		}
+	}
+
+	return $address_formats;
+}
