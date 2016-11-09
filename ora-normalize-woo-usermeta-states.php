@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Ora Normalize WooCommerce User Meta States
+Plugin Name: Ora WooCommerce Backend Tweaks
 Plugin URI: https://github.com/macbookandrew/Ora-Wellness-Plugins
 Description: Normalizes States User Meta
 Version: 1.0
@@ -13,6 +13,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+// replace state names with abbreviations when manually adding an order
 add_filter( 'woocommerce_found_customer_details', 'ora_customer_details', 10, 3 );
 function ora_customer_details( $customer_data, $user_id, $type_to_load ) {
     $states = array(
