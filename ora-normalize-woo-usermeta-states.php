@@ -2,7 +2,7 @@
 /*
 Plugin Name: Ora WooCommerce Backend Tweaks
 Plugin URI: https://github.com/macbookandrew/Ora-Wellness-Plugins
-Description: Normalizes States User Meta
+Description: Provides several improvements for manual orders and customer billing/shipping address display
 Version: 1.0
 Author: Andrew Minion/Pressed Solutions
 Author URI: http://www.pressedsolutions.com
