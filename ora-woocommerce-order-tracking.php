@@ -35,7 +35,6 @@ function ora_orders_deactivation() {
  * Add actions to run each hour
  */
 add_action( 'ora_hourly_check', 'ora_pending_orders' );
-add_action( 'ora_hourly_check', 'ora_failed_orders' );
 
 /**
  * Mark pending orders as failed if they’re more than a day old
@@ -69,5 +68,3 @@ function ora_pending_orders() {
         }
     }
 }
-
-//add_shortcode( 'dev_pending_orders', 'ora_pending_orders' );
