@@ -19,7 +19,7 @@ if (!defined('ABSPATH')) {
 register_activation_hook( __FILE__, 'ora_orders_activation' );
 function ora_orders_activation() {
     if ( ! wp_next_scheduled( 'ora_pending_orders' ) ) {
-        wp_schedule_event( time(), 'hourly', 'ora_hourly_check' );;
+        wp_schedule_event( time(), 'daily', 'ora_daily_check' );;
     }
 }
 
@@ -28,13 +28,13 @@ function ora_orders_activation() {
  */
 register_deactivation_hook( __FILE__, 'ora_orders_deactivation' );
 function ora_orders_deactivation() {
-    wp_clear_scheduled_hook( 'ora_hourly_check' );
+    wp_clear_scheduled_hook( 'ora_daily_check' );
 }
 
 /**
  * Add actions to run each hour
  */
-add_action( 'ora_hourly_check', 'ora_pending_orders' );
+add_action( 'ora_daily_check', 'ora_pending_orders' );
 
 /**
  * Mark pending orders as failed if they’re more than a day old
@@ -57,7 +57,8 @@ function ora_pending_orders() {
             // get order and update order status
             $order = new WC_Order( $order->id );
             $old_status = $order->post_status;
-            $order->update_status( $new_status, $auto_failed_note );
+            // set manual flag to true to prevent date from being updated
+            $order->update_status( $new_status, $auto_failed_note, true );
 
             // run WooCommerce hooks
             do_action( 'woocommerce_order_status_' . $old_status . '_to_' . $new_status, $order->id );
