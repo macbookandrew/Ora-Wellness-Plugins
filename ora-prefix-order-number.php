@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Ora WooCommerce Order Number
-Plugin URI: https://github.com/macbookandrew/Ora-Wellness-Plugins
+Plugin URI: https://github.com/PressedSolutions/Ora-Wellness-Plugins
 Description: Adds “WC-” prefix to all order numbers to help with EFS integration
 Version: 1.0.0
 Author: Andrew Minion/Pressed Solutions

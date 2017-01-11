@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Ora WooCommerce Order Tracking
-Plugin URI: https://github.com/macbookandrew/Ora-Wellness-Plugins
+Plugin URI: https://github.com/PressedSolutions/Ora-Wellness-Plugins
 Description: Inegrates “Pending” and “Failed” orders into Infusionsoft
 Version: 1.0
 Author: Andrew Minion/Pressed Solutions

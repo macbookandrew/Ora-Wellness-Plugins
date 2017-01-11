@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Ora Video Tutorials
-Plugin URI: https://github.com/macbookandrew/Ora-Wellness-Plugins
+Plugin URI: https://github.com/PressedSolutions/Ora-Wellness-Plugins
 Description: Adds custom post type for video tutorials
 Version: 1.1.1
 Author: Andrew Minion/Pressed Solutions

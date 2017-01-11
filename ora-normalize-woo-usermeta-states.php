@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Ora WooCommerce Backend Tweaks
-Plugin URI: https://github.com/macbookandrew/Ora-Wellness-Plugins
+Plugin URI: https://github.com/PressedSolutions/Ora-Wellness-Plugins
 Description: Provides several improvements for manual orders and customer billing/shipping address display
 Version: 1.0
 Author: Andrew Minion/Pressed Solutions
