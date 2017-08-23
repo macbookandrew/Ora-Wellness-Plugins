@@ -113,6 +113,7 @@ class OraSupportStaffWidget extends WP_Widget {
             echo $args['before_widget'] . '
             <h6>Customer Care Team</h6>
             <p><strong>8am–7pm EST</strong><br/>
+            <strong>Mon&ndash;Fri</strong><br/>
             <strong>808.892.3274</strong></p>';
             while ( $support_staff_query->have_posts() ) {
                 $support_staff_query->the_post();
