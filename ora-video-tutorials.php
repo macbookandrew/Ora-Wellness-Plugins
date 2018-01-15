@@ -39,7 +39,7 @@ function ora_video_tutorial() {
         'filter_items_list'     => __( 'Filter video tutorials list', 'genesis' ),
     );
     $rewrite = array(
-        'slug'                  => 'video-tutorials',
+        'slug'                  => 'videos',
         'with_front'            => true,
         'pages'                 => true,
         'feeds'                 => true,
@@ -58,7 +58,7 @@ function ora_video_tutorial() {
         'show_in_admin_bar'     => true,
         'show_in_nav_menus'     => true,
         'can_export'            => true,
-        'has_archive'           => 'video-tutorials',
+        'has_archive'           => 'videos',
         'exclude_from_search'   => false,
         'publicly_queryable'    => true,
         'rewrite'               => $rewrite,
