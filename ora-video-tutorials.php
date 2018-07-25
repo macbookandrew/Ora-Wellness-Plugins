@@ -48,7 +48,7 @@ function ora_video_tutorial() {
         'label'                 => __( 'Video Tutorial', 'genesis' ),
         'description'           => __( 'Video Tutorial', 'genesis' ),
         'labels'                => $labels,
-        'supports'              => array( 'title', 'editor', 'thumbnail', 'custom-fields', 'author', 'page-attributes' ),
+        'supports'              => array( 'title', 'editor', 'thumbnail', 'custom-fields', 'author', 'page-attributes', 'comments' ),
         'hierarchical'          => true,
         'public'                => true,
         'show_ui'               => true,
